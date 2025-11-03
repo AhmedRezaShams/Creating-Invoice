@@ -111,29 +111,6 @@ const Details = () => {
 
   return (
     <Box>
-      {/* Calculation Breakdown */}
-      <CommonSection>
-        <Typography variant="subtitle2" fontWeight={600} gutterBottom>
-          Calculation Breakdown
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-          <Typography variant="body2" color="text.secondary">
-            Subtotal:
-          </Typography>
-          <Typography variant="body2" fontWeight={600}>
-            ${subtotal.toFixed(2)}
-          </Typography>
-        </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', pt: 1, borderTop: '1px solid #e0e0e0' }}>
-          <Typography variant="body2" fontWeight={600}>
-            Total:
-          </Typography>
-          <Typography variant="body2" fontWeight={700}>
-            ${total.toFixed(2)}
-          </Typography>
-        </Box>
-      </CommonSection>
-
       {/* Invoice Details */}
       <CommonSection title={`New Invoice for ${selectedClient?.name || 'Client'}`}>
         <Typography variant="h6" fontWeight={600} gutterBottom>

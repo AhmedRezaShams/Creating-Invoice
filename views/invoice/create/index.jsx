@@ -1,7 +1,7 @@
 // pages/invoice/create/index.jsx
-'use client'
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+"use client";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Container,
@@ -13,24 +13,29 @@ import {
   IconButton,
   Collapse,
   Paper,
-} from '@mui/material';
+  LinearProgress,
+} from "@mui/material";
 import {
   IconChevronLeft,
   IconChevronRight,
   IconX,
   IconEye,
-} from '@tabler/icons-react';
-import { nextStep, previousStep, toggleCalculation } from '@/redux-store/slices/CreateInvoiceSlice';
-import Setup from './Setup';
-import Details from './Details';
-import Review from './Review';
-import Send from './Send';
+} from "@tabler/icons-react";
+import {
+  nextStep,
+  previousStep,
+  toggleCalculation,
+} from "@/redux-store/slices/CreateInvoiceSlice";
+import Setup from "./Setup";
+import Details from "./Details";
+import Review from "./Review";
+import Send from "./Send";
 
 const steps = [
-  { label: 'Setup', component: Setup },
-  { label: 'Details', component: Details },
-  { label: 'Review', component: Review },
-  { label: 'Send', component: Send },
+  { label: "Setup", component: Setup },
+  { label: "Details", component: Details },
+  { label: "Review", component: Review },
+  { label: "Send", component: Send },
 ];
 
 const CreateInvoice = () => {
@@ -56,28 +61,28 @@ const CreateInvoice = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f5f5', py: 4 }}>
+    <Box sx={{ minHeight: "100vh", backgroundColor: "#f5f5f5", py: 4 }}>
       <Container maxWidth="xl">
         {/* Header */}
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
             mb: 3,
           }}
         >
           <Typography variant="h4" fontWeight={700}>
             Create Invoice
           </Typography>
-          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
             <Button
               variant="outlined"
               startIcon={<IconEye size={18} />}
               onClick={() => dispatch(toggleCalculation())}
               size="small"
             >
-              {showCalculation ? 'Hide' : 'Show'} Calculation
+              {showCalculation ? "Hide" : "Show"} Calculation
             </Button>
             <IconButton size="small">
               <IconX size={20} />
@@ -91,23 +96,46 @@ const CreateInvoice = () => {
         </Typography>
 
         {/* Stepper */}
-        <Box sx={{ mb: 4 }}>
-          <Stepper activeStep={currentStep} alternativeLabel>
+
+        <Box sx={{ width: "100%", mb: 4 }}>
+          {/* Labels */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              mb: 2,
+            }}
+          >
             {steps.map((step, index) => (
-              <Step key={step.label}>
-                <StepLabel
-                  sx={{
-                    '& .MuiStepLabel-label': {
-                      fontWeight: currentStep === index ? 600 : 400,
-                      fontSize: '0.95rem',
-                    },
-                  }}
-                >
-                  {step.label}
-                </StepLabel>
-              </Step>
+              <Typography
+                key={step.label}
+                variant="body2"
+                sx={{
+                  fontWeight: currentStep === index ? 600 : 400,
+                  fontSize: "0.875rem",
+                  color:
+                    currentStep === index ? "primary.main" : "text.secondary",
+                }}
+              >
+                {step.label}
+              </Typography>
             ))}
-          </Stepper>
+          </Box>
+
+          {/* Progress Bar */}
+          <LinearProgress
+            variant="determinate"
+            value={(currentStep / (steps.length - 1)) * 100}
+            sx={{
+              height: 6,
+              borderRadius: 3,
+              backgroundColor: "grey.200",
+              "& .MuiLinearProgress-bar": {
+                borderRadius: 3,
+                backgroundColor: "primary.main",
+              },
+            }}
+          />
         </Box>
 
         {/* Calculation Breakdown */}
@@ -117,8 +145,8 @@ const CreateInvoice = () => {
             sx={{
               p: 2,
               mb: 3,
-              border: '1px solid #e0e0e0',
-              backgroundColor: '#fafafa',
+              border: "1px solid #e0e0e0",
+              backgroundColor: "#fafafa",
             }}
           >
             <Typography variant="subtitle2" fontWeight={600} gutterBottom>
@@ -126,8 +154,8 @@ const CreateInvoice = () => {
             </Typography>
             <Box
               sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
+                display: "flex",
+                justifyContent: "space-between",
                 mb: 1,
               }}
             >
@@ -140,10 +168,10 @@ const CreateInvoice = () => {
             </Box>
             <Box
               sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
+                display: "flex",
+                justifyContent: "space-between",
                 pt: 1,
-                borderTop: '1px solid #e0e0e0',
+                borderTop: "1px solid #e0e0e0",
               }}
             >
               <Typography variant="body2" fontWeight={600}>
@@ -165,14 +193,14 @@ const CreateInvoice = () => {
         <Paper
           elevation={0}
           sx={{
-            position: 'sticky',
+            position: "sticky",
             bottom: 0,
             p: 2,
-            borderTop: '1px solid #e0e0e0',
-            backgroundColor: '#fff',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            borderTop: "1px solid #e0e0e0",
+            backgroundColor: "#fff",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
           <Button

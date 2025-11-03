@@ -1,6 +1,6 @@
 // pages/invoice/create/Setup.jsx
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Radio,
@@ -13,52 +13,81 @@ import {
   Chip,
   Grid,
   Button,
-} from '@mui/material';
-import { IconSearch, IconCheck } from '@tabler/icons-react';
+  Grow,
+} from "@mui/material";
+import { IconSearch, IconCheck } from "@tabler/icons-react";
 
-import CommonSection from '@/components/CommonSection';
-import CommonTable from '@/components/CommonTable';
-import { clearAllProjects, selectAllProjects, setExpensesDisplay, setExpensesToInclude, setHoursDisplay, setHoursToInclude, setInvoiceType, setSelectedClient, toggleProject } from '@/redux-store/slices/CreateInvoiceSlice';
-
+import CommonSection from "@/components/CommonSection";
+import CommonTable from "@/components/CommonTable";
+import {
+  clearAllProjects,
+  selectAllProjects,
+  setExpensesDisplay,
+  setExpensesToInclude,
+  setHoursDisplay,
+  setHoursToInclude,
+  setInvoiceType,
+  setSelectedClient,
+  toggleProject,
+} from "@/redux-store/slices/CreateInvoiceSlice";
 
 // Mock data
 const mockClients = [
-  { id: 1, name: 'TechCorp Solutions', email: 'billing@techcorp.com', contact: 'John Smith' },
-  { id: 2, name: 'Digital Innovations', email: 'accounts@digital.com', contact: 'Jane Doe' },
-  { id: 3, name: 'Global Systems Inc', email: 'finance@global.com', contact: 'Bob Wilson' },
+  {
+    id: 1,
+    name: "TechCorp Solutions",
+    email: "billing@techcorp.com",
+    contact: "John Smith",
+  },
+  {
+    id: 2,
+    name: "Digital Innovations",
+    email: "accounts@digital.com",
+    contact: "Jane Doe",
+  },
+  {
+    id: 3,
+    name: "Global Systems Inc",
+    email: "finance@global.com",
+    contact: "Bob Wilson",
+  },
 ];
 
 const mockProjects = [
   {
     id: 1,
-    name: 'Website Redesign',
-    status: 'Active',
+    name: "Website Redesign",
+    status: "Active",
     uninvoicedHours: 45.5,
-    uninvoicedAmount: 3412.50,
-    uninvoicedExpenses: 250.00,
+    uninvoicedAmount: 3412.5,
+    uninvoicedExpenses: 250.0,
   },
   {
     id: 2,
-    name: 'Mobile App Development',
-    status: 'Active',
+    name: "Mobile App Development",
+    status: "Active",
     uninvoicedHours: 120.0,
-    uninvoicedAmount: 9600.00,
-    uninvoicedExpenses: 500.00,
+    uninvoicedAmount: 9600.0,
+    uninvoicedExpenses: 500.0,
   },
 ];
 
 const Setup = () => {
   const dispatch = useDispatch();
-  const [clientSearch, setClientSearch] = useState('');
+  const [clientSearch, setClientSearch] = useState("");
   const [filteredClients, setFilteredClients] = useState([]);
   const [showClientDropdown, setShowClientDropdown] = useState(false);
 
   const invoiceType = useSelector((state) => state.invoice.invoiceType);
   const selectedClient = useSelector((state) => state.invoice.selectedClient);
-  const selectedProjects = useSelector((state) => state.invoice.selectedProjects);
+  const selectedProjects = useSelector(
+    (state) => state.invoice.selectedProjects
+  );
   const hoursToInclude = useSelector((state) => state.invoice.hoursToInclude);
   const hoursDisplay = useSelector((state) => state.invoice.hoursDisplay);
-  const expensesToInclude = useSelector((state) => state.invoice.expensesToInclude);
+  const expensesToInclude = useSelector(
+    (state) => state.invoice.expensesToInclude
+  );
   const expensesDisplay = useSelector((state) => state.invoice.expensesDisplay);
 
   const handleClientSearch = (value) => {
@@ -84,15 +113,34 @@ const Setup = () => {
   };
 
   const projectColumns = [
-    { label: 'PROJECT', field: 'name' },
-    { label: 'UNINVOICED HOURS', field: 'uninvoicedHours', align: 'right' },
-    { label: 'UNINVOICED AMOUNT', field: 'uninvoicedAmount', align: 'right', render: (row) => `$${row.uninvoicedAmount.toFixed(2)}` },
-    { label: 'UNINVOICED EXPENSES', field: 'uninvoicedExpenses', align: 'right', render: (row) => `$${row.uninvoicedExpenses.toFixed(2)}` },
+    { label: "PROJECT", field: "name" },
+    { label: "UNINVOICED HOURS", field: "uninvoicedHours", align: "right" },
+    {
+      label: "UNINVOICED AMOUNT",
+      field: "uninvoicedAmount",
+      align: "right",
+      render: (row) => `$${row.uninvoicedAmount.toFixed(2)}`,
+    },
+    {
+      label: "UNINVOICED EXPENSES",
+      field: "uninvoicedExpenses",
+      align: "right",
+      render: (row) => `$${row.uninvoicedExpenses.toFixed(2)}`,
+    },
   ];
 
-  const totalHours = selectedProjects.reduce((sum, p) => sum + p.uninvoicedHours, 0);
-  const totalAmount = selectedProjects.reduce((sum, p) => sum + p.uninvoicedAmount, 0);
-  const totalExpenses = selectedProjects.reduce((sum, p) => sum + p.uninvoicedExpenses, 0);
+  const totalHours = selectedProjects.reduce(
+    (sum, p) => sum + p.uninvoicedHours,
+    0
+  );
+  const totalAmount = selectedProjects.reduce(
+    (sum, p) => sum + p.uninvoicedAmount,
+    0
+  );
+  const totalExpenses = selectedProjects.reduce(
+    (sum, p) => sum + p.uninvoicedExpenses,
+    0
+  );
 
   return (
     <Box>
@@ -105,21 +153,22 @@ const Setup = () => {
           >
             <Box
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
+                display: "flex",
+                flexDirection: "column",
                 gap: 2,
               }}
             >
               <Box
                 sx={{
-                  border: '2px solid',
-                  borderColor: invoiceType === 'tracked_time' ? 'primary.main' : '#e0e0e0',
+                  border: "2px solid",
+                  borderColor:
+                    invoiceType === "tracked_time" ? "primary.main" : "#e0e0e0",
                   borderRadius: 2,
                   p: 2,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  '&:hover': {
-                    borderColor: 'primary.main',
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  "&:hover": {
+                    borderColor: "primary.main",
                   },
                 }}
               >
@@ -132,7 +181,8 @@ const Setup = () => {
                         Tracked time & expenses (T&M)
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Include billable hours and expenses from selected projects
+                        Include billable hours and expenses from selected
+                        projects
                       </Typography>
                     </Box>
                   }
@@ -141,14 +191,15 @@ const Setup = () => {
 
               <Box
                 sx={{
-                  border: '2px solid',
-                  borderColor: invoiceType === 'free_form' ? 'primary.main' : '#e0e0e0',
+                  border: "2px solid",
+                  borderColor:
+                    invoiceType === "free_form" ? "primary.main" : "#e0e0e0",
                   borderRadius: 2,
                   p: 2,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  '&:hover': {
-                    borderColor: 'primary.main',
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  "&:hover": {
+                    borderColor: "primary.main",
                   },
                 }}
               >
@@ -170,15 +221,16 @@ const Setup = () => {
 
               <Box
                 sx={{
-                  border: '2px solid',
-                  borderColor: invoiceType === 'recurring' ? 'primary.main' : '#e0e0e0',
+                  border: "2px solid",
+                  borderColor:
+                    invoiceType === "recurring" ? "primary.main" : "#e0e0e0",
                   borderRadius: 2,
                   p: 2,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  backgroundColor: '#fffbea',
-                  '&:hover': {
-                    borderColor: 'primary.main',
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  backgroundColor: "#fffbea",
+                  "&:hover": {
+                    borderColor: "primary.main",
                   },
                 }}
               >
@@ -186,7 +238,7 @@ const Setup = () => {
                   value="recurring"
                   control={<Radio disabled />}
                   label={
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                       <Box>
                         <Typography variant="subtitle1" fontWeight={600}>
                           Recurring invoice
@@ -208,9 +260,10 @@ const Setup = () => {
       {/* Client Selection */}
       <CommonSection title="Client Selection">
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Select Client <span style={{ color: '#d32f2f' }}>*</span> (Required to proceed)
+          Select Client <span style={{ color: "#d32f2f" }}>*</span> (Required to
+          proceed)
         </Typography>
-        <Box sx={{ position: 'relative' }}>
+        <Box sx={{ position: "relative" }}>
           <TextField
             fullWidth
             placeholder="Search clients..."
@@ -228,18 +281,18 @@ const Setup = () => {
           {showClientDropdown && filteredClients.length > 0 && (
             <Box
               sx={{
-                position: 'absolute',
-                top: '100%',
+                position: "absolute",
+                top: "100%",
                 left: 0,
                 right: 0,
-                backgroundColor: '#fff',
-                border: '1px solid #e0e0e0',
+                backgroundColor: "#fff",
+                border: "1px solid #e0e0e0",
                 borderRadius: 1,
                 mt: 0.5,
                 maxHeight: 200,
-                overflow: 'auto',
+                overflow: "auto",
                 zIndex: 10,
-                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
               }}
             >
               {filteredClients.map((client) => (
@@ -248,9 +301,9 @@ const Setup = () => {
                   onClick={() => handleSelectClient(client)}
                   sx={{
                     p: 2,
-                    cursor: 'pointer',
-                    '&:hover': {
-                      backgroundColor: '#f5f5f5',
+                    cursor: "pointer",
+                    "&:hover": {
+                      backgroundColor: "#f5f5f5",
                     },
                   }}
                 >
@@ -270,10 +323,10 @@ const Setup = () => {
             sx={{
               mt: 2,
               p: 2,
-              backgroundColor: '#e3f2fd',
+              backgroundColor: "#e3f2fd",
               borderRadius: 1,
-              display: 'flex',
-              alignItems: 'center',
+              display: "flex",
+              alignItems: "center",
               gap: 1,
             }}
           >
@@ -291,10 +344,13 @@ const Setup = () => {
       </CommonSection>
 
       {/* Projects */}
-      {invoiceType === 'tracked_time' && (
+      {invoiceType === "tracked_time" && (
         <>
-          <CommonSection title="Projects" subtitle="Select projects to include in this invoice">
-            <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-end' }}>
+          <CommonSection
+            title="Projects"
+            subtitle="Select projects to include in this invoice"
+          >
+            <Box sx={{ mb: 2, display: "flex", justifyContent: "flex-end" }}>
               <Button
                 variant="text"
                 size="small"
@@ -323,7 +379,7 @@ const Setup = () => {
           {selectedProjects.length > 0 && (
             <CommonSection
               title="Preview: What will be included"
-              sx={{ backgroundColor: '#f0f7ff' }}
+              sx={{ backgroundColor: "#f0f7ff" }}
             >
               <Grid container spacing={3}>
                 <Grid item xs={4}>
@@ -332,7 +388,8 @@ const Setup = () => {
                       {totalHours.toFixed(1)} hours
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      from {selectedProjects.length} project{selectedProjects.length !== 1 ? 's' : ''}
+                      from {selectedProjects.length} project
+                      {selectedProjects.length !== 1 ? "s" : ""}
                     </Typography>
                   </Box>
                 </Grid>
@@ -361,194 +418,312 @@ const Setup = () => {
           )}
 
           {/* Hours Settings */}
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <CommonSection title="Hours to Include">
-                <FormControl component="fieldset">
+          <Grid
+            container
+            rowSpacing={1}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          >
+            <Grid size={{xs:12, sm:12, md:6, lg:6}}>
+              <CommonSection
+                title="Hours to Include"
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <FormControl
+                  component="fieldset"
+                  sx={{
+                    width: "100%",
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
                   <RadioGroup
                     value={hoursToInclude}
-                    onChange={(e) => dispatch(setHoursToInclude(e.target.value))}
+                    onChange={(e) =>
+                      dispatch(setHoursToInclude(e.target.value))
+                    }
+                    sx={{
+                      width: "100%",
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-around",
+                    }}
                   >
                     <FormControlLabel
                       value="all_uninvoiced"
                       control={<Radio />}
                       label={
-                        <Box>
-                          <Typography variant="body1">All uninvoiced billable hours</Typography>
+                        <Box sx={{ width: "100%" }}>
+                          <Typography variant="body1">
+                            All uninvoiced billable hours
+                          </Typography>
                           <Typography variant="body2" color="text.secondary">
                             Include all unbilled time entries
                           </Typography>
                         </Box>
                       }
+                      sx={{ width: "100%" }}
                     />
                     <FormControlLabel
                       value="none"
                       control={<Radio />}
                       label={
-                        <Box>
-                          <Typography variant="body1">Do not include any hours</Typography>
+                        <Box sx={{ width: "100%" }}>
+                          <Typography variant="body1">
+                            Do not include any hours
+                          </Typography>
                           <Typography variant="body2" color="text.secondary">
                             Skip time entries, expenses only
                           </Typography>
                         </Box>
                       }
+                      sx={{ width: "100%" }}
                     />
                   </RadioGroup>
                 </FormControl>
-              </CommonSection>
+              </CommonSection>{" "}
             </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CommonSection title="Hours Display">
-                <FormControl component="fieldset">
+            <Grid size={{xs:12, sm:12, md:6, lg:6}}>
+              <CommonSection
+                title="Hours Display"
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <FormControl
+                  component="fieldset"
+                  sx={{
+                    width: "100%",
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
                   <RadioGroup
                     value={hoursDisplay}
                     onChange={(e) => dispatch(setHoursDisplay(e.target.value))}
+                    sx={{
+                      width: "100%",
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-around",
+                    }}
                   >
                     <FormControlLabel
                       value="by_task"
                       control={<Radio />}
                       label={
-                        <Box>
+                        <Box sx={{ width: "100%" }}>
                           <Typography variant="body1">By task</Typography>
                           <Typography variant="body2" color="text.secondary">
                             Each task as separate line
                           </Typography>
                         </Box>
                       }
+                      sx={{ width: "100%" }}
                     />
                     <FormControlLabel
                       value="by_person"
                       control={<Radio />}
                       label={
-                        <Box>
+                        <Box sx={{ width: "100%" }}>
                           <Typography variant="body1">By person</Typography>
                           <Typography variant="body2" color="text.secondary">
                             Group by team member
                           </Typography>
                         </Box>
                       }
+                      sx={{ width: "100%" }}
                     />
                     <FormControlLabel
                       value="by_project"
                       control={<Radio />}
                       label={
-                        <Box>
+                        <Box sx={{ width: "100%" }}>
                           <Typography variant="body1">By project</Typography>
                           <Typography variant="body2" color="text.secondary">
                             One line per project
                           </Typography>
                         </Box>
                       }
+                      sx={{ width: "100%" }}
                     />
                     <FormControlLabel
                       value="detailed"
                       control={<Radio />}
                       label={
-                        <Box>
-                          <Typography variant="body1">Detailed (each entry)</Typography>
+                        <Box sx={{ width: "100%" }}>
+                          <Typography variant="body1">
+                            Detailed (each entry)
+                          </Typography>
                           <Typography variant="body2" color="text.secondary">
                             Every time entry listed
                           </Typography>
                         </Box>
                       }
+                      sx={{ width: "100%" }}
                     />
                   </RadioGroup>
                 </FormControl>
               </CommonSection>
             </Grid>
-
-            {/* Expenses Settings */}
-            <Grid item xs={12} md={6}>
-              <CommonSection title="Expenses to Include">
-                <FormControl component="fieldset">
+            <Grid size={{xs:12, sm:12, md:6, lg:6}}>
+              <CommonSection
+                title="Expenses to Include"
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <FormControl
+                  component="fieldset"
+                  sx={{
+                    width: "100%",
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
                   <RadioGroup
                     value={expensesToInclude}
-                    onChange={(e) => dispatch(setExpensesToInclude(e.target.value))}
+                    onChange={(e) =>
+                      dispatch(setExpensesToInclude(e.target.value))
+                    }
+                    sx={{
+                      width: "100%",
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-around",
+                    }}
                   >
                     <FormControlLabel
                       value="all_uninvoiced"
                       control={<Radio />}
                       label={
-                        <Box>
-                          <Typography variant="body1">All uninvoiced billable expenses</Typography>
+                        <Box sx={{ width: "100%" }}>
+                          <Typography variant="body1">
+                            All uninvoiced billable expenses
+                          </Typography>
                           <Typography variant="body2" color="text.secondary">
                             Include all unbilled expense entries
                           </Typography>
                         </Box>
                       }
+                      sx={{ width: "100%" }}
                     />
                     <FormControlLabel
                       value="none"
                       control={<Radio />}
                       label={
-                        <Box>
-                          <Typography variant="body1">Do not include any expenses</Typography>
+                        <Box sx={{ width: "100%" }}>
+                          <Typography variant="body1">
+                            Do not include any expenses
+                          </Typography>
                           <Typography variant="body2" color="text.secondary">
                             Skip expenses, time only
                           </Typography>
                         </Box>
                       }
+                      sx={{ width: "100%" }}
                     />
                   </RadioGroup>
                 </FormControl>
               </CommonSection>
             </Grid>
-
-            <Grid item xs={12} md={6}>
-              <CommonSection title="Expenses Display">
-                <FormControl component="fieldset">
+            <Grid size={{xs:12, sm:12, md:6, lg:6}}>
+              <CommonSection
+                title="Expenses Display"
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <FormControl
+                  component="fieldset"
+                  sx={{
+                    width: "100%",
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
                   <RadioGroup
                     value={expensesDisplay}
-                    onChange={(e) => dispatch(setExpensesDisplay(e.target.value))}
+                    onChange={(e) =>
+                      dispatch(setExpensesDisplay(e.target.value))
+                    }
+                    sx={{
+                      width: "100%",
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-around",
+                    }}
                   >
                     <FormControlLabel
                       value="by_category"
                       control={<Radio />}
                       label={
-                        <Box>
+                        <Box sx={{ width: "100%" }}>
                           <Typography variant="body1">By category</Typography>
                           <Typography variant="body2" color="text.secondary">
                             Group by expense type
                           </Typography>
                         </Box>
                       }
+                      sx={{ width: "100%" }}
                     />
                     <FormControlLabel
                       value="by_person"
                       control={<Radio />}
                       label={
-                        <Box>
+                        <Box sx={{ width: "100%" }}>
                           <Typography variant="body1">By person</Typography>
                           <Typography variant="body2" color="text.secondary">
                             Group by team member
                           </Typography>
                         </Box>
                       }
+                      sx={{ width: "100%" }}
                     />
                     <FormControlLabel
                       value="by_project"
                       control={<Radio />}
                       label={
-                        <Box>
+                        <Box sx={{ width: "100%" }}>
                           <Typography variant="body1">By project</Typography>
                           <Typography variant="body2" color="text.secondary">
                             One line per project
                           </Typography>
                         </Box>
                       }
+                      sx={{ width: "100%" }}
                     />
                     <FormControlLabel
                       value="detailed"
                       control={<Radio />}
                       label={
-                        <Box>
-                          <Typography variant="body1">Detailed (each entry)</Typography>
+                        <Box sx={{ width: "100%" }}>
+                          <Typography variant="body1">
+                            Detailed (each entry)
+                          </Typography>
                           <Typography variant="body2" color="text.secondary">
                             Every expense listed
                           </Typography>
                         </Box>
                       }
+                      sx={{ width: "100%" }}
                     />
                   </RadioGroup>
                 </FormControl>
