@@ -158,66 +158,80 @@ const Setup = () => {
                 gap: 2,
               }}
             >
-              <Box
-                sx={{
-                  border: "2px solid",
-                  borderColor:
-                    invoiceType === "tracked_time" ? "primary.main" : "#e0e0e0",
-                  borderRadius: 2,
-                  p: 2,
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                  "&:hover": {
-                    borderColor: "primary.main",
-                  },
-                }}
+              <Grid
+                container
+                rowSpacing={4}
+                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               >
-                <FormControlLabel
-                  value="tracked_time"
-                  control={<Radio />}
-                  label={
-                    <Box>
-                      <Typography variant="subtitle1" fontWeight={600}>
-                        Tracked time & expenses (T&M)
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Include billable hours and expenses from selected
-                        projects
-                      </Typography>
-                    </Box>
-                  }
-                />
-              </Box>
+                <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
+                  <Box
+                    sx={{
+                      border: "2px solid",
+                      borderColor:
+                        invoiceType === "tracked_time"
+                          ? "primary.main"
+                          : "#e0e0e0",
+                      borderRadius: 2,
+                      p: 2,
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      "&:hover": {
+                        borderColor: "primary.main",
+                      },
+                    }}
+                  >
+                    <FormControlLabel
+                      value="tracked_time"
+                      control={<Radio />}
+                      label={
+                        <Box>
+                          <Typography variant="subtitle1" fontWeight={600}>
+                            Tracked time & expenses (T&M)
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Include billable hours and expenses from selected
+                            projects
+                          </Typography>
+                        </Box>
+                      }
+                    />
+                  </Box>
+                </Grid>
 
-              <Box
-                sx={{
-                  border: "2px solid",
-                  borderColor:
-                    invoiceType === "free_form" ? "primary.main" : "#e0e0e0",
-                  borderRadius: 2,
-                  p: 2,
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                  "&:hover": {
-                    borderColor: "primary.main",
-                  },
-                }}
-              >
-                <FormControlLabel
-                  value="free_form"
-                  control={<Radio />}
-                  label={
-                    <Box>
-                      <Typography variant="subtitle1" fontWeight={600}>
-                        Free-form
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Create invoice with custom line items
-                      </Typography>
-                    </Box>
-                  }
-                />
-              </Box>
+                <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
+                  <Box
+                    sx={{
+                      border: "2px solid",
+                      borderColor:
+                        invoiceType === "free_form"
+                          ? "primary.main"
+                          : "#e0e0e0",
+                      borderRadius: 2,
+                      p: 2,
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      "&:hover": {
+                        borderColor: "primary.main",
+                      },
+                    }}
+                  >
+                    <FormControlLabel
+                      value="free_form"
+                      control={<Radio />}
+                      label={
+                        <Box>
+                          <Typography variant="subtitle1" fontWeight={600}>
+                            Free-form
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Create invoice with custom line items
+                          </Typography>
+                        </Box>
+                      }
+                    />
+                  </Box>
+                </Grid>
+              </Grid>
 
               <Box
                 sx={{
@@ -238,7 +252,14 @@ const Setup = () => {
                   value="recurring"
                   control={<Radio disabled />}
                   label={
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        gap: 1,
+                      }}
+                    >
                       <Box>
                         <Typography variant="subtitle1" fontWeight={600}>
                           Recurring invoice
@@ -423,7 +444,7 @@ const Setup = () => {
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
-            <Grid size={{xs:12, sm:12, md:6, lg:6}}>
+            <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
               <CommonSection
                 title="Hours to Include"
                 sx={{
@@ -488,7 +509,7 @@ const Setup = () => {
                 </FormControl>
               </CommonSection>{" "}
             </Grid>
-            <Grid size={{xs:12, sm:12, md:6, lg:6}}>
+            <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
               <CommonSection
                 title="Hours Display"
                 sx={{
@@ -575,7 +596,7 @@ const Setup = () => {
                 </FormControl>
               </CommonSection>
             </Grid>
-            <Grid size={{xs:12, sm:12, md:6, lg:6}}>
+            <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
               <CommonSection
                 title="Expenses to Include"
                 sx={{
@@ -640,7 +661,7 @@ const Setup = () => {
                 </FormControl>
               </CommonSection>
             </Grid>
-            <Grid size={{xs:12, sm:12, md:6, lg:6}}>
+            <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
               <CommonSection
                 title="Expenses Display"
                 sx={{

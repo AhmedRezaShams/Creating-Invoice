@@ -20,6 +20,7 @@ import {
   IconChevronRight,
   IconX,
   IconEye,
+  IconCalculator,
 } from "@tabler/icons-react";
 import {
   nextStep,
@@ -30,6 +31,7 @@ import Setup from "./Setup";
 import Details from "./Details";
 import Review from "./Review";
 import Send from "./Send";
+import primaryColorConfig from "@/configs/primaryColorConfigs";
 
 const steps = [
   { label: "Setup", component: Setup },
@@ -60,6 +62,8 @@ const CreateInvoice = () => {
     return true;
   };
 
+  const primary = primaryColorConfig[0];
+
   return (
     <Box sx={{ minHeight: "100vh", backgroundColor: "#f5f5f5", py: 4 }}>
       <Container maxWidth="xl">
@@ -78,7 +82,7 @@ const CreateInvoice = () => {
           <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
             <Button
               variant="outlined"
-              startIcon={<IconEye size={18} />}
+              startIcon={<IconCalculator size={18} />}
               onClick={() => dispatch(toggleCalculation())}
               size="small"
             >
@@ -145,8 +149,9 @@ const CreateInvoice = () => {
             sx={{
               p: 2,
               mb: 3,
-              border: "1px solid #e0e0e0",
-              backgroundColor: "#fafafa",
+              border: "1px solid",
+              borderColor: primary.light,
+              backgroundColor: primary.primaryLight,
             }}
           >
             <Typography variant="subtitle2" fontWeight={600} gutterBottom>
@@ -172,6 +177,7 @@ const CreateInvoice = () => {
                 justifyContent: "space-between",
                 pt: 1,
                 borderTop: "1px solid #e0e0e0",
+                borderColor: primary.light
               }}
             >
               <Typography variant="body2" fontWeight={600}>
