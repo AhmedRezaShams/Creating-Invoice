@@ -14,6 +14,7 @@ import {
   Grid,
   Button,
   Grow,
+  Container,
 } from "@mui/material";
 import { IconSearch, IconCheck } from "@tabler/icons-react";
 
@@ -30,6 +31,7 @@ import {
   setSelectedClient,
   toggleProject,
 } from "@/redux-store/slices/CreateInvoiceSlice";
+import primaryColorConfig from "@/configs/primaryColorConfigs";
 
 // Mock data
 const mockClients = [
@@ -141,6 +143,9 @@ const Setup = () => {
     (sum, p) => sum + p.uninvoicedExpenses,
     0
   );
+
+  const primary = primaryColorConfig[0];
+  const secondary = primaryColorConfig[1];
 
   return (
     <Box>
@@ -344,14 +349,16 @@ const Setup = () => {
             sx={{
               mt: 2,
               p: 2,
-              backgroundColor: "#e3f2fd",
+              backgroundColor: secondary.background,
               borderRadius: 1,
+              border: 1,
+              borderColor: secondary.light,
               display: "flex",
               alignItems: "center",
               gap: 1,
             }}
           >
-            <IconCheck size={20} color="#1976d2" />
+            {/* <IconCheck size={20} color="#1976d2" /> */}
             <Box>
               <Typography variant="body1" fontWeight={600}>
                 {selectedClient.name}
@@ -371,7 +378,7 @@ const Setup = () => {
             title="Projects"
             subtitle="Select projects to include in this invoice"
           >
-            <Box sx={{ mb: 2, display: "flex", justifyContent: "flex-end" }}>
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
               <Button
                 variant="text"
                 size="small"
@@ -395,48 +402,82 @@ const Setup = () => {
                 }
               }}
             />
-          </CommonSection>
 
-          {selectedProjects.length > 0 && (
-            <CommonSection
-              title="Preview: What will be included"
-              sx={{ backgroundColor: "#f0f7ff" }}
-            >
-              <Grid container spacing={3}>
-                <Grid item xs={4}>
-                  <Box>
-                    <Typography variant="h5" fontWeight={700} color="primary">
-                      {totalHours.toFixed(1)} hours
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      from {selectedProjects.length} project
-                      {selectedProjects.length !== 1 ? "s" : ""}
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={4}>
-                  <Box>
-                    <Typography variant="h5" fontWeight={700} color="primary">
-                      ${totalAmount.toFixed(2)}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      billable amount
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={4}>
-                  <Box>
-                    <Typography variant="h5" fontWeight={700} color="primary">
-                      ${totalExpenses.toFixed(2)}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      in expenses
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-            </CommonSection>
-          )}
+            <Box sx={{ mt: 2 }}>
+              {selectedProjects.length > 0 && (
+                <CommonSection
+                  title="Preview: What will be included"
+                  sx={{
+                    backgroundColor: primary.primaryLight,
+                    border: 1,
+                    borderColor: primary.light,
+                  }}
+                >
+                  <Grid
+                    container
+                    spacing={3}
+                    sx={{ justifyContent: "space-between" }}
+                  >
+                    <Grid
+                      item
+                      xs={4}
+                      sx={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <Box sx={{ textAlign: "center" }}>
+                        <Typography
+                          variant="h5"
+                          fontWeight={700}
+                          color="primary"
+                        >
+                          {totalHours.toFixed(1)} hours
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          from {selectedProjects.length} project
+                          {selectedProjects.length !== 1 ? "s" : ""}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={4}
+                      sx={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <Box sx={{ textAlign: "center" }}>
+                        <Typography
+                          variant="h5"
+                          fontWeight={700}
+                          color="primary"
+                        >
+                          ${totalAmount.toFixed(2)}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          billable amount
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={4}
+                      sx={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <Box sx={{ textAlign: "center" }}>
+                        <Typography
+                          variant="h5"
+                          fontWeight={700}
+                          color="primary"
+                        >
+                          ${totalExpenses.toFixed(2)}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          in expenses
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </CommonSection>
+              )}
+            </Box>
+          </CommonSection>
 
           {/* Hours Settings */}
           <Grid
@@ -452,6 +493,7 @@ const Setup = () => {
                   display: "flex",
                   flexDirection: "column",
                 }}
+                learnMoreText="These settings control how the system behaves in advanced scenarios. Most users don't need to change these."
               >
                 <FormControl
                   component="fieldset"
@@ -517,6 +559,7 @@ const Setup = () => {
                   display: "flex",
                   flexDirection: "column",
                 }}
+                learnMoreText="These settings control how the system behaves in advanced scenarios. Most users don't need to change these."
               >
                 <FormControl
                   component="fieldset"
@@ -604,6 +647,7 @@ const Setup = () => {
                   display: "flex",
                   flexDirection: "column",
                 }}
+                learnMoreText="These settings control how the system behaves in advanced scenarios. Most users don't need to change these."
               >
                 <FormControl
                   component="fieldset"
@@ -669,6 +713,7 @@ const Setup = () => {
                   display: "flex",
                   flexDirection: "column",
                 }}
+                learnMoreText="These settings control how the system behaves in advanced scenarios. Most users don't need to change these."
               >
                 <FormControl
                   component="fieldset"

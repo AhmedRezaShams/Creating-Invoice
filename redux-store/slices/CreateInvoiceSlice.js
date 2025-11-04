@@ -1,61 +1,62 @@
 // store/slices/invoiceSlice.js
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   // Step 1: Setup
-  invoiceType: 'tracked_time', // 'tracked_time' | 'free_form' | 'recurring'
+  invoiceType: "tracked_time", // 'tracked_time' | 'free_form' | 'recurring'
   selectedClient: null,
   selectedProjects: [],
-  hoursToInclude: 'all_uninvoiced', // 'all_uninvoiced' | 'none'
-  hoursDisplay: 'by_project', // 'by_task' | 'by_person' | 'by_project' | 'detailed'
-  expensesToInclude: 'all_uninvoiced', // 'all_uninvoiced' | 'none'
-  expensesDisplay: 'by_project', // 'by_category' | 'by_person' | 'by_project' | 'detailed'
-  
+  hoursToInclude: "all_uninvoiced", // 'all_uninvoiced' | 'none'
+  hoursDisplay: "by_project", // 'by_task' | 'by_person' | 'by_project' | 'detailed'
+  expensesToInclude: "all_uninvoiced", // 'all_uninvoiced' | 'none'
+  expensesDisplay: "by_project", // 'by_category' | 'by_person' | 'by_project' | 'detailed'
+
   // Step 2: Details
   invoiceDetails: {
-    invoiceId: '',
-    poNumber: '',
-    issueDate: new Date().toISOString().split('T')[0],
-    paymentTerms: 'net_30',
-    subject: '',
+    invoiceId: "",
+    poNumber: "",
+    issueDate: new Date().toISOString().split("T")[0],
+    paymentTerms: "net_30",
+    subject: "",
     invoiceFor: null,
     tax: 0,
-    taxType: '$', // '$' | '%'
+    taxType: "$", // '$' | '%'
     discount: 0,
-    discountType: '%', // '$' | '%'
-    currency: 'USD',
+    discountType: "%", // '$' | '%'
+    currency: "USD",
   },
   lineItems: [],
-  invoiceNotes: '',
-  paymentInstructions: '',
-  termsAndConditions: '',
-  thankYouMessage: '',
-  
+  invoiceNotes: "",
+  paymentInstructions: "",
+  termsAndConditions: "",
+  remittanceInformation: "",
+  thankYouMessage: "",
+
   // Step 3: Review
   attachments: [],
-  
+
   // Step 4: Send
-  sendAs: '',
+  sendAs: "",
   recipients: [],
   ccRecipients: [],
   bccRecipients: [],
-  messageSubject: '',
-  messageBody: '',
+  messageSubject: "",
+  messageBody: "",
   includePdf: true,
-  
+
   // Calculations
   subtotal: 0,
   totalTax: 0,
   totalDiscount: 0,
   total: 0,
-  
+
   // UI State
   currentStep: 0,
   showCalculation: true,
 };
 
 const invoiceSlice = createSlice({
-  name: 'invoice',
+  name: "invoice",
   initialState,
   reducers: {
     // Step Navigation
@@ -68,7 +69,7 @@ const invoiceSlice = createSlice({
     previousStep: (state) => {
       if (state.currentStep > 0) state.currentStep -= 1;
     },
-    
+
     // Step 1: Setup Actions
     setInvoiceType: (state, action) => {
       state.invoiceType = action.payload;
@@ -80,12 +81,16 @@ const invoiceSlice = createSlice({
       state.selectedProjects = action.payload;
     },
     toggleProject: (state, action) => {
-      const projectId = action.payload;
-      const index = state.selectedProjects.findIndex(p => p.id === projectId);
+      const project = action.payload;
+      const index = state.selectedProjects.findIndex(
+        (p) => p.id === project.id
+      );
+
       if (index > -1) {
+        // Project already selected, remove it
         state.selectedProjects.splice(index, 1);
       } else {
-        const project = action.payload;
+        // Project not selected, add it
         state.selectedProjects.push(project);
       }
     },
@@ -107,7 +112,7 @@ const invoiceSlice = createSlice({
     setExpensesDisplay: (state, action) => {
       state.expensesDisplay = action.payload;
     },
-    
+
     // Step 2: Details Actions
     updateInvoiceDetails: (state, action) => {
       state.invoiceDetails = { ...state.invoiceDetails, ...action.payload };
@@ -134,10 +139,13 @@ const invoiceSlice = createSlice({
     setTermsAndConditions: (state, action) => {
       state.termsAndConditions = action.payload;
     },
+    setRemittanceInformation: (state, action) => {
+      state.remittanceInformation = action.payload;
+    },
     setThankYouMessage: (state, action) => {
       state.thankYouMessage = action.payload;
     },
-    
+
     // Step 3: Review Actions
     addAttachment: (state, action) => {
       state.attachments.push(action.payload);
@@ -145,7 +153,7 @@ const invoiceSlice = createSlice({
     removeAttachment: (state, action) => {
       state.attachments.splice(action.payload, 1);
     },
-    
+
     // Step 4: Send Actions
     setSendAs: (state, action) => {
       state.sendAs = action.payload;
@@ -174,41 +182,41 @@ const invoiceSlice = createSlice({
     setIncludePdf: (state, action) => {
       state.includePdf = action.payload;
     },
-    
+
     // Calculation Actions
     calculateTotals: (state) => {
       const subtotal = state.lineItems.reduce((sum, item) => {
-        return sum + (item.quantity * item.unitPrice);
+        return sum + item.quantity * item.unitPrice;
       }, 0);
-      
+
       state.subtotal = subtotal;
-      
+
       let totalDiscount = 0;
-      if (state.invoiceDetails.discountType === '%') {
+      if (state.invoiceDetails.discountType === "%") {
         totalDiscount = (subtotal * state.invoiceDetails.discount) / 100;
       } else {
         totalDiscount = state.invoiceDetails.discount;
       }
       state.totalDiscount = totalDiscount;
-      
+
       const afterDiscount = subtotal - totalDiscount;
-      
+
       let totalTax = 0;
-      if (state.invoiceDetails.taxType === '%') {
+      if (state.invoiceDetails.taxType === "%") {
         totalTax = (afterDiscount * state.invoiceDetails.tax) / 100;
       } else {
         totalTax = state.invoiceDetails.tax;
       }
       state.totalTax = totalTax;
-      
+
       state.total = afterDiscount + totalTax;
     },
-    
+
     // Toggle UI
     toggleCalculation: (state) => {
       state.showCalculation = !state.showCalculation;
     },
-    
+
     // Reset
     resetInvoice: () => initialState,
   },
@@ -236,6 +244,7 @@ export const {
   setInvoiceNotes,
   setPaymentInstructions,
   setTermsAndConditions,
+  setRemittanceInformation,
   setThankYouMessage,
   addAttachment,
   removeAttachment,
