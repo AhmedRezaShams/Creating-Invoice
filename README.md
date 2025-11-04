@@ -17,6 +17,9 @@ This is a comprehensive invoice creation web application built with Next.js. It 
 *   **File Attachments:** Attach relevant files or expense reports to the invoice.
 *   **Integrated Emailing:** Compose and send the invoice email directly from the application.
 
+![alt text](https://github.com/AhmedRezaShams/Creating-Invoice/blob/dev_reza/public/c2.png?raw=true)
+![alt text](https://github.com/AhmedRezaShams/Creating-Invoice/blob/dev_reza/public/c3.png?raw=true)
+
 ## Core Components
 
 The application's architecture is centered around a clear, step-based process managed by Redux.
